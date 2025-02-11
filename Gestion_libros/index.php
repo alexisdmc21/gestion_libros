@@ -12,40 +12,98 @@ function obtenerlibros()
 
 function agregarlibros($titulo, $autor, $precio, $cantidad)
 {
-    if (!empty($titulo) && !empty($autor) && $precio > 0 && $cantidad > 0) {
+    if (validarCampos($titulo, $autor, $precio, $cantidad)) {
         $_SESSION['libros'][] = [
             'titulo' => htmlspecialchars($titulo),
             'autor' => htmlspecialchars($autor),
-            'precio' => (float)$precio,
-            'cantidad' => (int)$cantidad
+            'precio' => (float) $precio,
+            'cantidad' => (int) $cantidad
         ];
         return true;
     }
     return false;
 }
 
-$mensaje = '';
+function actualizarlibros($index, $titulo, $autor, $precio, $cantidad)
+{
+    if (isset($_SESSION['libros'][$index]) && validarCampos($titulo, $autor, $precio, $cantidad)) {
+        $_SESSION['libros'][$index] = [
+            'titulo' => htmlspecialchars($titulo),
+            'autor' => htmlspecialchars($autor),
+            'precio' => (float) $precio,
+            'cantidad' => (int) $cantidad
+        ];
+        return true;
+    }
+    return false;
+}
+
+function eliminarlibros($index)
+{
+    if (isset($_SESSION['libros'][$index])) {
+        array_splice($_SESSION['libros'], $index, 1);
+        return true;
+    }
+    return false;
+}
+
+function validarCampos($titulo, $autor, $precio, $cantidad)
+{
+    return !empty($titulo) && !empty($autor) && $precio > 0 && $cantidad > 0;
+}
+
+$alerta = '';
+$titulo = '';
+$autor = '';
+$precio = '';
+$cantidad = '';
+$index = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'] ?? '';
     $autor = $_POST['autor'] ?? '';
     $precio = $_POST['precio'] ?? 0;
     $cantidad = $_POST['cantidad'] ?? 0;
+    $index = $_POST['index'] ?? null;
 
-    if (empty($titulo) || empty($autor)) {
-        $mensaje = 'Titulo y autor no pueden estar vacios';
-    } elseif ($precio <= 0 || $cantidad <= 0) {
-        $mensaje = 'Precio y cantidad deben ser valores positivos';
+    if ($index !== null && is_numeric($index)) {
+        if (actualizarlibros($index, $titulo, $autor, $precio, $cantidad)) {
+            $alerta = 'Libro actualizado correctamente';
+            $titulo = $autor = $precio = $cantidad = '';
+        } else {
+            $alerta = 'No se pudo actualizar el libro';
+        }
     } else {
         if (agregarlibros($titulo, $autor, $precio, $cantidad)) {
-            $mensaje = 'Libro agregado correctamente';
+            $alerta = 'Libro registrado correctamente';
+            $titulo = $autor = $precio = $cantidad = '';
         } else {
-            $mensaje = 'Error al agregar el libro';
+            $alerta = 'No se pudo registrar el libro';
         }
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $action = $_GET['action'] ?? '';
+    $index = $_GET['index'] ?? null;
 
+    if ($action == 'delete' && is_numeric($index)) {
+        if (eliminarlibros((int)$index)) {
+            $alerta = 'Libro eliminado correctamente';
+        } else {
+            $alerta = 'No se pudo eliminar el libro';
+        }
+    } elseif ($action == 'edit' && is_numeric($index)) {
+        $libro = $_SESSION['libros'][$index] ?? null;
+        if ($libro) {
+            $titulo = $libro['titulo'];
+            $autor = $libro['autor'];
+            $precio = $libro['precio'];
+            $cantidad = $libro['cantidad'];
+            $index = (int)$index;
+        }
+    }
+}
 
 $libros = obtenerlibros();
 
@@ -63,8 +121,8 @@ function renderizarTabla($libros)
                     <td>{$libro['precio']}</td>
                     <td>{$libro['cantidad']}</td>
                     <td>
-                        <a href='editar.php?id=$index' class='btn btn-warning btn-sm'>Editar</a>
-                        <a href='eliminar.php?id=$index' class='btn btn-danger btn-sm'>Eliminar</a>
+                        <a href='?action=edit&index=$index' class='btn btn-warning btn-sm'>Editar</a>
+                        <a href='?action=delete&index=$index' class='btn btn-danger btn-sm'>Eliminar</a>
                     </td>
                 </tr>
                 ";
@@ -84,34 +142,65 @@ function renderizarTabla($libros)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
+<script>
+    function validarFormulario() {
+        const titulo = document.getElementById('titulo').value;
+        const autor = document.getElementById('autor').value;
+        const precio = document.getElementById('precio').value;
+        const cantidad = document.getElementById('cantidad').value;
+
+        if (titulo === '') {
+            alert('El campo titulo es obligatorio');
+            return false;
+        }
+
+        if (autor === '') {
+            alert('El campo autor es obligatorio');
+            return false;
+        }
+
+        if (isNaN(precio) || precio <= 0) {
+            alert('El campo precio debe ser un numero mayor a 0');
+            return false;
+        }
+
+        return true;
+    }
+
+    <?php if (!empty($alerta)) : ?>
+        alert('<?php echo $alerta; ?>');
+    <?php endif; ?>
+</script>
+</head>
+
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="https://www.espe.edu.ec/">
-         <img src="https://encuestas.espe.edu.ec/tmp/assets/46dd5aad/ESPE.png" alt="ESPE Logo" width="36" height="40" class="me-2 align-middle">
-        ESPE
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Registrar Libro</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Listado de Libros</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contacto</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://www.espe.edu.ec/">
+                <img src="https://encuestas.espe.edu.ec/tmp/assets/46dd5aad/ESPE.png" alt="ESPE Logo" width="36" height="40" class="me-2 align-middle">
+                ESPE
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registrar Libro</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Listado de Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <h1>Sistema de gestion de libros</h1>
     <div class="form-container">
         <form id="form_libros" method="POST">
@@ -138,7 +227,7 @@ function renderizarTabla($libros)
             </tr>
         </thead>
         <tbody>
-            <?php echo $mensaje; ?>
+            <?php echo $alerta; ?>
             <?php renderizarTabla($libros); ?>
         </tbody>
 
