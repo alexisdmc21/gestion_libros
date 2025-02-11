@@ -63,8 +63,8 @@ function renderizarTabla($libros)
                     <td>{$libro['precio']}</td>
                     <td>{$libro['cantidad']}</td>
                     <td>
-                        <a href='editar.php?id=$index'>Editar</a> |
-                        <a href='eliminar.php?id=$index'>Eliminar</a>
+                        <a href='editar.php?id=$index' class='btn btn-warning btn-sm'>Editar</a>
+                        <a href='eliminar.php?id=$index' class='btn btn-danger btn-sm'>Eliminar</a>
                     </td>
                 </tr>
                 ";
@@ -79,27 +79,55 @@ function renderizarTabla($libros)
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema Gestor de Libros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://www.espe.edu.ec/">
+         <img src="https://encuestas.espe.edu.ec/tmp/assets/46dd5aad/ESPE.png" alt="ESPE Logo" width="36" height="40" class="me-2 align-middle">
+        ESPE
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Registrar Libro</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Listado de Libros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
     <h1>Sistema de gestion de libros</h1>
     <div class="form-container">
         <form id="form_libros" method="POST">
             <label for="titulo">Titulo</label>
-            <input type="text" name="titulo" id="titulo" >
+            <input type="text" name="titulo" id="titulo">
             <label for="autor">Autor</label>
-            <input type="text" name="autor" id="autor" >
+            <input type="text" name="autor" id="autor">
             <label for="precio">Precio</label>
-            <input type="number" name="precio" id="precio" >
+            <input type="number" name="precio" id="precio">
             <label for="cantidad">Cantidad</label>
-            <input type="number" name="cantidad" id="cantidad" >
+            <input type="number" name="cantidad" id="cantidad">
             <button type="submit">Registrar</button>
         </form>
     </div>
     <h3>Lista de libros</h3>
-    <table>
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
                 <th>Id</th>
@@ -113,6 +141,8 @@ function renderizarTabla($libros)
             <?php echo $mensaje; ?>
             <?php renderizarTabla($libros); ?>
         </tbody>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
