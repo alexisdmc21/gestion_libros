@@ -1,6 +1,11 @@
 <?php include 'header.php'; ?>
-<div class="container mt-4">
-    <h1>Bienvenido al Sistema Gestor de Libros</h1>
-    <p>Utiliza el menú para navegar.</p>
-</div>
+
+<body class="index-body">
+    <div class="overlay"></div>
+    <div class="container-custom">
+        <h1>Bienvenido al Sistema Gestor de Libros</h1>
+        <a href="registro.php" class="btn-custom">Registro de Libros</a>
+    </div>
+</body>
+
 <?php include 'footer.php'; ?>

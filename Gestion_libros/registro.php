@@ -1,8 +1,8 @@
 <?php include 'header.php'; ?>
 <?php include 'libros.php'; ?>
 
-
-<h1>Sistema de gestion de libros</h1>
+<div class="container mt-4">
+<h1>Reistrar Libro</h1>
     <div class="form-container">
         <form id="form_libros" method="POST">
             <label for="titulo">Titulo</label>
@@ -15,6 +15,6 @@
             <input type="number" name="cantidad" id="cantidad">
             <button type="submit">Registrar</button>
         </form>
-    </div>
+</div>
 
 <?php include 'footer.php'; ?>
