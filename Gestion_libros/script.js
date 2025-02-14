@@ -4,27 +4,35 @@ function validarFormulario() {
     const precio = document.getElementById('precio').value;
     const cantidad = document.getElementById('cantidad').value;
 
-    if (titulo === '') {
+const regex = /^[a-zA-Z]+$/;
+    if(!titulo.trim() && !autor.trim() && !precio.trim() && !cantidad.trim()){
+       alert('Todos los campos deben ser llenados');
+        return false;
+   }else{
+   
+    if (!titulo.trim()) 
         alert('El campo titulo es obligatorio');
-        return false;
-    }
+    else
 
-    if (autor === '') {
+    if (!autor.trim()) 
         alert('El campo autor es obligatorio');
-        return false;
-    }
+    else
 
-    if (isNaN(precio) || precio <= 0) {
+    if (!regex.test(autor.trim())) 
+        alert('El campo autor debe llevar solo caractéres');
+     
+    else
+
+    if (isNaN(precio) || precio <= 0) 
         alert('El campo precio debe ser un numero mayor a 0');
-        return false;
-    }
+        
+    else
 
-    return true;
+    if (isNaN(cantidad) || cantidad <= 0) 
+        alert('El campo cantidad debe ser un numero mayor a 0');
+       else{
+        return true;
+       }
+      return false;
+    }
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    const alerta = document.getElementById("mensajeAlerta");
-    if (alerta && alerta.textContent.trim() !== "") {
-        alert(alerta.textContent);
-    }
-});
