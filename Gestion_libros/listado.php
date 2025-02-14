@@ -1,6 +1,13 @@
 <?php include 'header.php'; ?>
 <?php include 'libros.php'; ?>
 
+<script>
+  <?php if(!empty($alerta)) :?>
+                alert('<?php echo  $alerta ;?>');
+            <?php endif;?>
+</script> 
+<h3>Lista de libros</h3>
+
 <div class="container mt-4">
 <h1>Lista de libros registrados</h1>
     <table class="table table-striped table-dark">
@@ -15,10 +22,11 @@
             </tr>
         </thead>
         <tbody>
-            <?php echo $alerta; ?>
             <?php renderizarTabla($libros); ?>
         </tbody>
     </table>
     </div>
 
 <?php include 'footer.php'; ?>
+</body>
+</html>
