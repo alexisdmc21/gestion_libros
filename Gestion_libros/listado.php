@@ -6,7 +6,6 @@
                 alert('<?php echo  $alerta ;?>');
             <?php endif;?>
 </script> 
-<h3>Lista de libros</h3>
 
 <div class="container mt-4">
 <h1>Lista de libros registrados</h1>
