@@ -2,7 +2,7 @@
 <?php include 'libros.php'; ?>
 
 <div class="container mt-4">
-<h1>Reistrar Libro</h1>
+<h1>Registrar Libro</h1>
     <div class="form-container">
         <form id="form_libros" method="POST">
             <label for="titulo">Titulo</label>
