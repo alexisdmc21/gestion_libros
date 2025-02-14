@@ -34,6 +34,7 @@
       <h3>Email</h3>
       <p>jesanchez31@espe.edu.ec</p>
       <p>matalavera@espe.edu.ec</p>
+      <p>admorales7@espe.edu.ec</p>
     </section>
    </div>
     <?php include 'footer.php'; ?>
