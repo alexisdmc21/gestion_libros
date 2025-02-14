@@ -13,7 +13,7 @@ Deberán desarrollar un sistema web utilizando PHP, basado en el código proporc
 
 # Desarrollo
 
-Este sistema web permite gestionar libros y autores utilizando PHP, JavaScript y una base de datos. Su funcionalidad principal incluye el registro, actualización, eliminación y listado de libros.
+Este sistema web permite gestionar libros y autores utilizando PHP y JavaScript. Su funcionalidad principal incluye el registro, actualización, eliminación y listado de libros.
 
 El sistema está dividido en varios archivos para una mejor organización:
 
