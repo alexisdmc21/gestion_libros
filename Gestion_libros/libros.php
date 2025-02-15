@@ -100,9 +100,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
       
   if($action==='eliminar' && is_numeric($index)){
       if(eliminarlibros((int)$index)){
-          $alerta = "Se elimino correctamente";
+          $alerta = "Libro eliminado correctamente";
       }else{
-          $alerta ="No se pudo eliminar";
+          $alerta ="No fue posible eliminar";
       }
   }else
       if($action==='editar' && is_numeric($index)){
