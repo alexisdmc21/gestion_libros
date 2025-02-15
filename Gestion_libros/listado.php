@@ -1,12 +1,8 @@
 <?php include 'header.php'; ?>
-<?php include 'libros.php'; ?>
-
-<script>
-  <?php if(!empty($alerta)) :?>
-                alert('<?php echo  $alerta ;?>');
-            <?php endif;?>
-</script> 
-
+<?php include 'libros.php';
+$libros = obtenerLibros();
+ ?>
+ 
 <div class="container mt-4">
 <h1>Lista de libros registrados</h1>
     <table class="table table-striped table-dark">
@@ -27,5 +23,4 @@
     </div>
 
 <?php include 'footer.php'; ?>
-</body>
-</html>
+

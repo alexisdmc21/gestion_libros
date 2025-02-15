@@ -53,6 +53,13 @@ function validarCampos($titulo, $autor, $precio, $cantidad)
     return !empty($titulo) && !empty($autor) && $precio > 0 && $cantidad > 0;
 }
 
+// Variables para manejar mensajes y valores del formulario
+$alerta = ''; // Mensaje para alertar al usuario
+$nombre = ''; // Nombre del producto (vacío por defecto)
+$precio = ''; // Precio del producto (vacío por defecto)
+$stock = ''; // Stock del producto (vacío por defecto)
+$index = null; // Índice del producto para edición
+
 //Gestionar valores en el formulario//
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $titulo = $_POST['titulo']??'';
@@ -62,19 +69,23 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $index = $_POST['index']??null;
   
   
-  if(!$index ===null && is_numeric($index)){
-      if(actualizarlibro((int)$index,$titulo,$nombre,$precio,$cantidad)){
-          $alerta = "Se actualizo  correctamente";
-        
+  if($index !==null && is_numeric($index)){
+      if(actualizarlibros((int)$index,$titulo,$autor,$precio,$cantidad)){
+          $alerta = "Libro actualizado correctamente";
+
+          $titulo = $autor = $precio = $cantidad = '';
       }else{
           $alerta ="No se pudo actualizar";
       }
   }else{ 
       if(agregarlibros($titulo,$autor,$precio,$cantidad)){
-          $alerta = "Se actualizo  correctamente";
+          $alerta = "Libro registrado correctamente";
           
+            $titulo = $autor = $precio = $cantidad = '';
+            $index = null;
       }else{
-          $alerta ="No se pudo actualizar";
+          $alerta ="No se pudo registrar";
+          $index = null;
       }
   
     }
@@ -88,7 +99,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
   
       
   if($action==='eliminar' && is_numeric($index)){
-      if(eliminarlibros($index)){
+      if(eliminarlibros((int)$index)){
           $alerta = "Se elimino correctamente";
       }else{
           $alerta ="No se pudo eliminar";
@@ -101,9 +112,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
           $autor = $libro['autor'];
           $precio = $libro['precio'];
           $cantidad = $libro['cantidad'];
+          $index = (int)$index;
       }
-  
-  }
+    }
   }
   
   
@@ -113,7 +124,7 @@ $libros = obtenerlibros();
 function renderizarTabla($libros)
 {
     if (empty($libros)) {
-        echo "<tr><td>No existen productos</tr></td>";
+        echo "<tr><td colspan='6'>No existen productos</tr></td>";
     } else {
         foreach ($libros as $index => $libro) {
             echo "
@@ -124,12 +135,16 @@ function renderizarTabla($libros)
                     <td>".$libro['precio']."</td>
                     <td>".$libro['cantidad']."</td>
                     <td>
-                        <a href='?action=editar&index=$index' class='btn btn-warning btn-sm'>Editar</a>
+                       <a href='registro.php?action=editar&index=" . $index . "' class='btn btn-warning btn-sm'>Editar</a>
                         <a href='?action=eliminar&index=$index' class='btn btn-danger btn-sm'>Eliminar</a>
                     </td>
                 </tr>
                 ";
         }
     }
+}
+
+if(!empty($alerta)){
+    echo "<script>alert('$alerta')</script>";
 }
 ?>
