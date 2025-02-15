@@ -13,22 +13,22 @@
 
                     <div class="mb-3">
                         <label for="titulo" class="form-label">Título:</label>
-                        <input type="text" id="titulo" name="titulo" class="form-control" value="<?php echo htmlspecialchars($titulo ?? ''); ?>" required>
+                        <input type="text" id="titulo" name="titulo" class="form-control" value="<?php echo htmlspecialchars($titulo ?? ''); ?>">
                     </div>
                     
                     <div class="mb-3">
                         <label for="autor" class="form-label">Autor:</label>
-                        <input type="text" id="autor" name="autor" class="form-control" value="<?php echo htmlspecialchars($autor ?? ''); ?>" required>
+                        <input type="text" id="autor" name="autor" class="form-control" value="<?php echo htmlspecialchars($autor ?? ''); ?>">
                     </div>
                     
                     <div class="mb-3">
                         <label for="precio" class="form-label">Precio:</label>
-                        <input type="number" id="precio" name="precio" class="form-control" min="1" value="<?php echo htmlspecialchars($precio ?? ''); ?>" required>
+                        <input type="number" id="precio" name="precio" class="form-control" min="1" value="<?php echo htmlspecialchars($precio ?? ''); ?>">
                     </div>
                     
                     <div class="mb-3">
                         <label for="cantidad" class="form-label">Cantidad:</label>
-                        <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="<?php echo htmlspecialchars($cantidad ?? ''); ?>" required>
+                        <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="<?php echo htmlspecialchars($cantidad ?? ''); ?>">
                     </div>
                     
                     <div class="d-grid gap-2">
